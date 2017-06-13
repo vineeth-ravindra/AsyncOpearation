@@ -8,7 +8,7 @@ import Foundation
 
 class AsyncOperation: Operation {
     
-    enum Status: String {
+    internal enum Status: String {
         case ready, executing, finished
         fileprivate var KeyPath: String {
             return "is" + rawValue
@@ -45,16 +45,15 @@ extension AsyncOperation {
     }
     override func start() {
         if isCancelled {
-            state = .finished
+            status = .finished
             return
         }
         main()
-        state = .executing
+        status = .executing
     }
     
     override func cancel() {
         super.cancel()
-        state = .finished
+        status = .finished
     }
-    
 }
